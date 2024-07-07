@@ -24,5 +24,5 @@ jobs:
         run: |
           export TF_WORKSPACE=${{ github.events.input.environment }}
           cd infra/
-          docker compose run --rum terraform -chdir=deploy/ init
-          docker compose run --rum terraform -chdir=deploy/ destroy -auto-approve
+          docker compose run --rm terraform -chdir=deploy/ init
+          docker compose run --rm terraform -chdir=deploy/ destroy -auto-approve
