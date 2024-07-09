@@ -5,7 +5,7 @@ on:
     inputs:
       environment:
         type: choice
-        description: Which environment to remove AWS resources for
+        description: Which environment to remove AWS resources for?
         options:
           - staging
           - prod
@@ -17,12 +17,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Terraform destroy
+      - name: Terraform Destroy
         env:
           AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          export TF_WORKSPACE=${{ github.events.input.environment }}
+          export TF_WORKSPACE=${{ github.event.inputs.environment }}
           cd infra/
           docker compose run --rm terraform -chdir=deploy/ init
           docker compose run --rm terraform -chdir=deploy/ destroy -auto-approve
