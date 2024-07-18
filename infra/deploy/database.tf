@@ -15,8 +15,8 @@ resource "aws_db_subnet_group" "main" {
 }
 
 resource "aws_security_group" "rds" {
-  description = "Allow access RDS database instance"
-  name        = "${local.prefix}-inbound-access"
+  description = "Allow access to the RDS database instance."
+  name        = "${local.prefix}-rds-inbound-access"
   vpc_id      = aws_vpc.main.id
 
   ingress {
@@ -36,7 +36,7 @@ resource "aws_db_instance" "main" {
   allocated_storage          = 20
   storage_type               = "gp2"
   engine                     = "postgres"
-  engine_version             = "15.3"
+  engine_version             = "15.5"
   auto_minor_version_upgrade = true
   instance_class             = "db.t4g.micro"
   username                   = var.db_username
