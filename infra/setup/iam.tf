@@ -167,7 +167,9 @@ data "aws_iam_policy_document" "rds" {
       "rds:DeleteDBInstance",
       "rds:ListTagsForResource",
       "rds:ModifyDBInstance",
-      "rds:AddTagsToResource"
+      "rds:AddTagsToResource",
+      "iam:CreateServiceLinkedRole",
+      "ec2:DescribeAvailabilityZones"
     ]
     resources = ["*"]
   }
