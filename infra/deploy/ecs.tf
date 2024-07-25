@@ -47,3 +47,33 @@ resource "aws_iam_role_policy_attachment" "task_execution_role" {
   role       = aws_iam_role.task_execution_role.name
   policy_arn = aws_iam_policy.task_execution_role_policy.arn
 }
+
+data "aws_iam_policy_document" "task_ssm_role_policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ssmmessages:CreateControlChannel",
+      "ssmmessages:CreateDataChannel",
+      "ssmmessages:OpenControlChannel",
+      "ssmmessages:OpenDataChannel"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "task_ssm_role_policy" {
+  name        = "${local.prefix}-task-ssm-role-policy"
+  description = "Policy to allow System Manager to execute in container."
+  policy      = data.aws_iam_policy_document.task_ssm_role_policy.json
+}
+
+
+resource "aws_iam_role" "app_task" {
+  name               = "${local.prefix}-app-task"
+  assume_role_policy = data.aws_iam_policy_document.task_assume_role_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "task_ssm_policy" {
+  role       = aws_iam_role.app_task.name
+  policy_arn = aws_iam_policy.task_ssm_role_policy.arn
+}
