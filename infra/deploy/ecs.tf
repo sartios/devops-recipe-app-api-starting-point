@@ -200,7 +200,8 @@ resource "aws_security_group" "ecs_service" {
     from_port = 5432
     to_port   = 5432
     protocol  = "tcp"
-    cidr_blocks = [aws_subnet.private_a.cidr_block,
+    cidr_blocks = [
+      aws_subnet.private_a.cidr_block,
       aws_subnet.private_b.cidr_block
     ]
   }
